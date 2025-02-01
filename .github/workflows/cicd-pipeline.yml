@@ -11,6 +11,8 @@ jobs:
     runs-on: self-hosted
 
     steps:
+    - name: Remove existing repository
+      run: rm -rf /home/ubuntu/actions-runner/Authbase-Backend || true
     - name: Clone the repository
       run: git clone -b dev git@github.com:hencydsouza/Authbase-Backend.git
     - name: Copy the .env file
