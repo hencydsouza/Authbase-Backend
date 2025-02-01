@@ -13,11 +13,14 @@ jobs:
     runs-on: self-hosted
 
     steps:
-    - name: Pull Docker image
-      run: sudo docker pull hencyd/authbase_backend:latest
-    - name: Delete existing container
+    - name: Stop and remove existing container
       run: |
         sudo docker stop authbase_backend_container || true
         sudo docker rm -f authbase_backend_container || true
+    - name: Prune old Docker images
+      run: |
+        sudo docker image prune -f --filter "dangling=false"
+    - name: Pull latest Docker image
+      run: sudo docker pull hencyd/authbase_backend:latest
     - name: Run the Docker container
       run: sudo docker run -d --name authbase_backend_container -p 8000:8000 --env-file /home/ubuntu/actions-runner/.env hencyd/authbase_backend:latest
