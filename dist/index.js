@@ -19,7 +19,7 @@ app.use((0, cors_1.default)({
 app.use((0, cookie_parser_1.default)());
 app.get('/', (req, res) => {
     res.status(200).json({
-        message: "Hello World!"
+        message: "OK"
     });
 });
 app.listen(app_config_1.config.PORT, () => {
