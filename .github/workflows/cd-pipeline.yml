@@ -1,0 +1,25 @@
+name: CD Pipeline
+
+on:
+  workflow_run:
+    workflows: ["CI Pipeline"]
+    types:
+      - completed
+
+jobs:
+
+  build:
+
+    runs-on: self-hosted
+
+    steps:
+    - name: Pull Docker image
+      run: sudo docker pull hencyd/authbase_backend:latest
+    - name: Delete existing container
+      run: sudo docker rm -rf authbase_backend_container || true
+    - name: Run the Docker container
+      run: sudo docker run -d \
+            --name authbase_backend_container \
+            -p 8000:8000 \
+            --env-file /home/ubuntu/actions-runner/.env \
+            hencyd/authbase_backend:latest
