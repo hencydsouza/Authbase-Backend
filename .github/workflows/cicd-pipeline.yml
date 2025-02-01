@@ -12,13 +12,9 @@ jobs:
 
     steps:
     - name: Clone the repository
-      run: git clone git@github.com:hencydsouza/Authbase-Backend.git
-    - name: Change directory
-      run: cd Authbase-Backend
-    - name: Switch to dev branch
-      run: git checkout dev
+      run: git clone -b dev git@github.com:hencydsouza/Authbase-Backend.git
     - name: Copy the .env file
-      run: cp /home/ubuntu/actions-runner/.env .
+      run: cp /home/ubuntu/actions-runner/.env /home/ubuntu/actions-runner/Authbase-Backend
     - name: Stop and remove existing container
       run: |
         sudo docker stop authbase_backend_container || true
@@ -27,6 +23,6 @@ jobs:
       run: |
         sudo docker image prune -f
     - name: Build the Docker image
-      run: sudo docker build -t authbase_backend .
+      run: sudo docker build -t authbase_backend /home/ubuntu/actions-runner/Authbase-Backend
     - name: Run the Docker container
-      run: sudo docker run -d --name authbase_backend_container -p 8000:8000 --env-file .env authbase_backend
+      run: sudo docker run -d --name authbase_backend_container -p 8000:8000 --env-file /home/ubuntu/actions-runner/.env authbase_backend
