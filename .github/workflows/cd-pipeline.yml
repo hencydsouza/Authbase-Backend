@@ -18,6 +18,6 @@ jobs:
     - name: Delete existing container
       run: |
         sudo docker stop authbase_backend_container || true
-        sudo docker rm -rf authbase_backend_container || true
+        sudo docker rm -f authbase_backend_container || true
     - name: Run the Docker container
       run: sudo docker run -d --name authbase_backend_container -p 8000:8000 --env-file /home/ubuntu/actions-runner/.env hencyd/authbase_backend:latest
